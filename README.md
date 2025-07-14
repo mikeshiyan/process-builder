@@ -1,15 +1,13 @@
 # Process Builder
 
-[![Build Status](https://travis-ci.org/mikeshiyan/process-builder.svg?branch=master)](https://travis-ci.org/mikeshiyan/process-builder)
-
 Builds command lines for symfony/process using magic methods.
 
 Best suited for use as a [Composer](https://getcomposer.org) library.
 
 ## Requirements
 
-* PHP &ge; 7.1
-* [symfony/process](https://github.com/symfony/process) &ge; 4.3
+* PHP &ge; 7.4
+* [symfony/process](https://github.com/symfony/process) &ge; 5
 
 ## Installation
 
@@ -24,10 +22,10 @@ Using the `ProcessBuilder` class:
 ```
 use Shiyan\ProcessBuilder\ProcessBuilder;
 
-$ls = new ProcessBuilder('ls', '~');
-print $ls('-la');
+$ls = new ProcessBuilder(app: 'ls', cwd: '~');
+print $ls('-la'); // Prints the command output.
 
-$ls->chDir('../');
+$ls->chDir('../'); // Changes the working directory, not the command argument.
 print $ls('-la');
 ```
 
@@ -44,7 +42,7 @@ if ($git->status('-z') != '') {
 }
 ```
 
-By default an underlying process runs automatically. This behavior can be
+By default, an underlying process runs automatically. This behavior can be
 changed:
 ```
 use Shiyan\ProcessBuilder\ProcessBuilder;

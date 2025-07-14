@@ -15,7 +15,7 @@ class ProcessBuilder extends BaseProcessBuilder {
    * @param string|null $cwd
    *   Working directory to use by process.
    */
-  public function __construct(string $app, string $cwd = NULL) {
+  public function __construct(string $app, ?string $cwd = NULL) {
     $this->args = [$app];
     parent::__construct($cwd);
   }

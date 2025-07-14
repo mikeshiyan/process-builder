@@ -12,21 +12,21 @@ abstract class BaseProcessBuilder {
    *
    * @var string[]
    */
-  protected $args = [];
+  protected array $args = [];
 
   /**
    * Current working directory.
    *
    * @var string|null
    */
-  protected $cwd;
+  protected ?string $cwd = NULL;
 
   /**
    * Whether to run a process automatically.
    *
    * @var bool
    */
-  protected $autoRun = TRUE;
+  protected bool $autoRun = TRUE;
 
   /**
    * BaseProcessBuilder constructor.
@@ -34,7 +34,7 @@ abstract class BaseProcessBuilder {
    * @param string|null $cwd
    *   Working directory to use by process.
    */
-  public function __construct(string $cwd = NULL) {
+  public function __construct(?string $cwd = NULL) {
     $this->cwd = $cwd;
 
     if (!$this->args) {
@@ -57,7 +57,7 @@ abstract class BaseProcessBuilder {
    *
    * @return static
    */
-  public function setSharedFlags(string ...$arguments): self {
+  public function setSharedFlags(string ...$arguments): static {
     $this->args = array_merge($this->args, $arguments);
     return $this;
   }
@@ -71,7 +71,7 @@ abstract class BaseProcessBuilder {
    *
    * @return static
    */
-  public function chDir(string $cwd = NULL): self {
+  public function chDir(?string $cwd = NULL): static {
     $this->cwd = $cwd;
     return $this;
   }
@@ -84,7 +84,7 @@ abstract class BaseProcessBuilder {
    *
    * @return static
    */
-  public function setAutoRun(bool $auto_run): self {
+  public function setAutoRun(bool $auto_run): static {
     $this->autoRun = $auto_run;
     return $this;
   }

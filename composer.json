@@ -5,7 +5,7 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Mike Shiyan",
+            "name": "Mykhailo Shyian",
             "homepage": "https://github.com/mikeshiyan"
         }
     ],
@@ -14,11 +14,12 @@
         "issues": "https://github.com/mikeshiyan/process-builder/issues"
     },
     "require": {
-        "php": "^7.1",
-        "symfony/process": "^4.3"
+        "php": "^7.4 || ^8",
+        "ext-ctype": "*",
+        "symfony/process": "^5 || ^6 || ^7"
     },
     "require-dev": {
-        "phpunit/phpunit": "^7.0"
+        "phpunit/phpunit": "^12"
     },
     "autoload": {
         "psr-4": {
@@ -34,6 +35,6 @@
         "sort-packages": true
     },
     "scripts": {
-        "test": "vendor/bin/phpunit --coverage-text --whitelist src tests"
+        "test": "vendor/bin/phpunit --coverage-text --coverage-filter src tests"
     }
 }
