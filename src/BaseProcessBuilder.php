@@ -110,7 +110,10 @@ abstract class BaseProcessBuilder {
    *   If process didn't terminate successfully.
    */
   public function __invoke(string ...$arguments): Process {
-    $process = new Process(array_merge($this->args, $arguments), $this->cwd);
+    // Use all getenv() vars explicitly, because the variables_order php ini
+    // directive may omit "E" due to performance reasons, and symfony/process
+    // limits getenv() vars by what's in $_SERVER by default.
+    $process = new Process(array_merge($this->args, $arguments), $this->cwd, getenv());
     return $this->autoRun ? $process->mustRun() : $process;
   }
 
