@@ -4,7 +4,9 @@ namespace Shiyan\ProcessBuilder\tests;
 
 use PHPUnit\Framework\TestCase;
 use Shiyan\ProcessBuilder\Example\Git;
+use Shiyan\ProcessBuilder\Process;
 use Shiyan\ProcessBuilder\ProcessBuilder;
+use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Exception\ProcessTimedOutException;
 use TestAppClass;
 
@@ -40,6 +42,20 @@ class IntegrationTest extends TestCase {
     $app->setAutoRun(FALSE);
     $command = $app->subCommand(1, 2)->getCommandLine();
     $this->assertSame("'test-app-class' 'sub-command' '1' '2'", $command);
+  }
+
+  public function testGetProcess(): void {
+    $false = new ProcessBuilder('false');
+    $this->expectException(ProcessFailedException::class);
+
+    try {
+      $false();
+    }
+    catch (\Exception $exception) {
+      $this->assertInstanceOf(Process::class, $false->getProcess());
+      $this->assertTrue($false->getProcess()->isTerminated());
+      throw $exception;
+    }
   }
 
   public function testTimeout(): void {

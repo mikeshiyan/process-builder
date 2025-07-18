@@ -36,6 +36,13 @@ abstract class BaseProcessBuilder {
   protected bool $autoRun = TRUE;
 
   /**
+   * Last executed process.
+   *
+   * @var \Shiyan\ProcessBuilder\Process|null
+   */
+  protected ?Process $process = NULL;
+
+  /**
    * BaseProcessBuilder constructor.
    *
    * @param string|null $cwd
@@ -113,6 +120,15 @@ abstract class BaseProcessBuilder {
   }
 
   /**
+   * Gets the last executed process.
+   *
+   * @return \Shiyan\ProcessBuilder\Process|null
+   */
+  public function getProcess(): ?Process {
+    return $this->process;
+  }
+
+  /**
    * Creates and optionally runs a process.
    *
    * @param string ...$arguments
@@ -136,8 +152,8 @@ abstract class BaseProcessBuilder {
     // Use all getenv() vars explicitly, because the variables_order php ini
     // directive may omit "E" due to performance reasons, and symfony/process
     // limits getenv() vars by what's in $_SERVER by default.
-    $process = new Process(array_merge($this->args, $arguments), $this->cwd, getenv(), timeout: $this->timeout);
-    return $this->autoRun ? $process->mustRun() : $process;
+    $this->process = new Process(array_merge($this->args, $arguments), $this->cwd, getenv(), timeout: $this->timeout);
+    return $this->autoRun ? $this->process->mustRun() : $this->process;
   }
 
   /**
