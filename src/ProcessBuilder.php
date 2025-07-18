@@ -14,10 +14,12 @@ class ProcessBuilder extends BaseProcessBuilder {
    *   Application name.
    * @param string|null $cwd
    *   Working directory to use by process.
+   * @param float|null $timeout
+   *   The timeout in seconds or null to disable.
    */
-  public function __construct(string $app, ?string $cwd = NULL) {
+  public function __construct(string $app, ?string $cwd = NULL, ?float $timeout = NULL) {
     $this->args = [$app];
-    parent::__construct($cwd);
+    parent::__construct($cwd, $timeout);
   }
 
 }

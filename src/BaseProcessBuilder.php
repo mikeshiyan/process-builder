@@ -22,6 +22,13 @@ abstract class BaseProcessBuilder {
   protected ?string $cwd = NULL;
 
   /**
+   * Process timeout in seconds.
+   *
+   * @var float|null
+   */
+  protected ?float $timeout = NULL;
+
+  /**
    * Whether to run a process automatically.
    *
    * @var bool
@@ -33,9 +40,12 @@ abstract class BaseProcessBuilder {
    *
    * @param string|null $cwd
    *   Working directory to use by process.
+   * @param float|null $timeout
+   *   The timeout in seconds or null to disable.
    */
-  public function __construct(?string $cwd = NULL) {
+  public function __construct(?string $cwd = NULL, ?float $timeout = NULL) {
     $this->cwd = $cwd;
+    $this->timeout = $timeout;
 
     if (!$this->args) {
       if ($class = strrchr(static::class, '\\')) {
@@ -77,6 +87,19 @@ abstract class BaseProcessBuilder {
   }
 
   /**
+   * Sets the process timeout.
+   *
+   * @param float|null $timeout
+   *   The timeout in seconds or null to disable.
+   *
+   * @return static
+   */
+  public function setTimeout(?float $timeout): static {
+    $this->timeout = $timeout;
+    return $this;
+  }
+
+  /**
    * Sets whether to run a process automatically.
    *
    * @param bool $auto_run
@@ -113,7 +136,7 @@ abstract class BaseProcessBuilder {
     // Use all getenv() vars explicitly, because the variables_order php ini
     // directive may omit "E" due to performance reasons, and symfony/process
     // limits getenv() vars by what's in $_SERVER by default.
-    $process = new Process(array_merge($this->args, $arguments), $this->cwd, getenv());
+    $process = new Process(array_merge($this->args, $arguments), $this->cwd, getenv(), timeout: $this->timeout);
     return $this->autoRun ? $process->mustRun() : $process;
   }
 
