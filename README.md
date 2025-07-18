@@ -6,7 +6,7 @@ Best suited for use as a [Composer](https://getcomposer.org) library.
 
 ## Requirements
 
-* PHP &ge; 7.4
+* PHP &ge; 8.0
 * [symfony/process](https://github.com/symfony/process) &ge; 5
 
 ## Installation
